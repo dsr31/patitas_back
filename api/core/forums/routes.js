@@ -1,25 +1,20 @@
 const express   = require('express');
 const init      = express.Router();
 const responses = require('../../responses');
-const postController = require('../posts/postsController');
+const forumsController = require('../forums/forumsController');
 
-/*init.get('/', function(req, res){
-    let status  = 200;
-    let message = postController.getAll().then((items) => {
-        responses.success(req, res, items, status);
-    })
-});*/
 
 init.get('/', function(req, res){
     let status  = 200;
-    let message = postController.getAllPostsCard().then((items) => {
+    let message = forumsController.getAllForumsCard().then((items) => {
         responses.success(req, res, items, status);
     })
 });
 
+
 init.get('/:id', function(req, res){
     let status  = 200;
-    let message = postController.getPost(req.params.id).then((items) => {
+    let message = forumsController.getForum(req.params.id).then((items) => {
         responses.success(req, res, items, status);
     })
 });

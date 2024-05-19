@@ -4,4 +4,12 @@ function getAll(){
     return mysql.getAll('prueba');
 }
 
-module.exports = { getAll };
+function getAllPostsCard(){
+    return mysql.getAllPostsCard();
+}
+
+function getPost(id){
+    return mysql.getPost(id);
+}
+
+module.exports = { getAll, getAllPostsCard, getPost };

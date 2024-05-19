@@ -8,6 +8,6 @@ module.exports = {
         host:       process.env.MYSQLHOST || 'localhost',
         user:       process.env.MYSQLUSER || 'root',
         password:   process.env.MYSQLPSWD || '',
-        database:   process.env.MYSQLDB   || 'prueba',        
+        database:   process.env.MYSQLDB   || 'patitas_db',        
     }
 }
