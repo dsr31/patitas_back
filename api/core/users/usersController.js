@@ -12,4 +12,10 @@ function getMyReviews(id){
 function getUser(id){
     return mysql.getUser(id);
 }
-module.exports = { getMyPets, getMyForums, getMyReviews, getUser };
+function registerUser(body){
+    return mysql.registerUser(body);
+}
+function comprobarDisponibilidadUsuario(email, username){
+    return mysql.comprobarDisponibilidadUsuario(email, username);
+}
+module.exports = { getMyPets, getMyForums, getMyReviews, getUser, registerUser, comprobarDisponibilidadUsuario };

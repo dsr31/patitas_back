@@ -10,6 +10,13 @@ const usersController = require('../users/usersController');
     })
 });*/
 
+init.get('/comprobarDisponibilidadUsuario', function(req, res){
+    let status  = 200;
+    let message = usersController.comprobarDisponibilidadUsuario(req.query.email, req.query.username).then((items) => {
+        responses.success(req, res, items, status);
+    })
+});
+
 init.get('/:id', function(req, res){
     let status  = 200;
     let message = usersController.getUser(req.params.id).then((items) => {
@@ -35,6 +42,13 @@ init.get('/:id/reviews', function(req, res){
     let status  = 200;
     let message = usersController.getMyReviews(req.params.id).then((items) => {
         responses.success(req, res, items, status);
+    })
+});
+
+init.post('', function(req, res){
+    let status  = 200;
+    let message = usersController.registerUser(req.body).then(() => {
+        responses.success(req, res, '¡Enhorabuena!¡Un usuario nuevo se ha registrado!', status);
     })
 });
 // Al final del todo exportamos

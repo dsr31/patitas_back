@@ -7,6 +7,10 @@ const posts = require('./core/posts/routes');
 const forums = require('./core/forums/routes');
 const users = require('./core/users/routes');
 
+// para poder hacer post
+init.use(express.json());
+init.use(express.urlencoded({extended:true}));
+
 init.set('port', config.app.port);
 
 // rutas de acceso a las apis

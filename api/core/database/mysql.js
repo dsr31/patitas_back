@@ -165,6 +165,37 @@ function getMyReviews(id){
     });
 }
 
+function registerUser(body){
+    return new Promise((resolve, reject) => {
+        connection.query(`INSERT INTO user SET ?`, body, (error, result) => {
+            if(error){
+                return reject(error);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    });
+}
+
+function comprobarDisponibilidadUsuario(email, username){
+
+    return new Promise((resolve, reject) => {
+        connection.query(`
+        SELECT id_user
+        FROM user
+        WHERE email = '${email}' OR username = '${username}'`, (error, result) => {
+            if(error){
+                return reject(error);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    });
+}
+
+
 // CONEXION CON DB
 let connection;
 const config_db = {
@@ -196,4 +227,5 @@ function connectToDataBase(){
 
 connectToDataBase();
 
-module.exports = { getAll, getAllPostsCard, getPost, getAllForumsCard, getForum, getMyPets, getMyForums, getMyReviews, getUser };
+module.exports = { getAll, getAllPostsCard, getPost, getAllForumsCard, getForum, getMyPets, 
+    getMyForums, getMyReviews, getUser, registerUser, comprobarDisponibilidadUsuario };
