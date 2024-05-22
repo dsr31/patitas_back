@@ -17,6 +17,13 @@ init.get('/comprobarDisponibilidadUsuario', function(req, res){
     })
 });
 
+init.get('/comprobarInicioSesion', function(req, res){
+    let status  = 200;
+    let message = usersController.comprobarInicioSesion(req.query.username).then((items) => {
+        responses.success(req, res, items, status);
+    })
+});
+
 init.get('/:id', function(req, res){
     let status  = 200;
     let message = usersController.getUser(req.params.id).then((items) => {

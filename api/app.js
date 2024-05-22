@@ -6,6 +6,7 @@ const init    = express();
 const posts = require('./core/posts/routes');
 const forums = require('./core/forums/routes');
 const users = require('./core/users/routes');
+const pets = require('./core/pets/routes');
 
 // para poder hacer post
 init.use(express.json());
@@ -21,6 +22,9 @@ init.use('/api/forums', forums);
 
 // rutas de acceso a las apis
 init.use('/api/users', users);
+
+// rutas de acceso a las apis
+init.use('/api/pets', pets);
 
 // Esta es la ultima !!
 module.exports = init;

@@ -12,4 +12,8 @@ function getForum(id){
     return mysql.getForum(id);
 }
 
-module.exports = { getAll, getAllForumsCard, getForum };
+function getForumReplies(id){
+    return mysql.getForumReplies(id);
+}
+
+module.exports = { getAll, getAllForumsCard, getForum, getForumReplies };

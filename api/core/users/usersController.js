@@ -18,4 +18,7 @@ function registerUser(body){
 function comprobarDisponibilidadUsuario(email, username){
     return mysql.comprobarDisponibilidadUsuario(email, username);
 }
-module.exports = { getMyPets, getMyForums, getMyReviews, getUser, registerUser, comprobarDisponibilidadUsuario };
+function comprobarInicioSesion(username){
+    return mysql.comprobarInicioSesion(username);
+}
+module.exports = { getMyPets, getMyForums, getMyReviews, getUser, registerUser, comprobarDisponibilidadUsuario, comprobarInicioSesion };

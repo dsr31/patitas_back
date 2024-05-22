@@ -62,7 +62,7 @@ function getUser(id){
         SELECT user.id_user, user.name, user.description, user.email, user.username, user.phone, 
         user.rating, user.user_profile_image            
         FROM user 
-        WHERE user.id_user = ${id}`, (error, result) => {
+        WHERE user.username = '${id}'`, (error, result) => {
             if(error){
                 return reject(error);
             }
@@ -98,6 +98,23 @@ function getForum(id){
         FROM forum
         LEFT JOIN user ON user.id_user = forum.id_user
         WHERE id_forum = ${id}`, (error, result) => {
+            if(error){
+                return reject(error);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    });
+}
+
+function getForumReplies(id){
+    return new Promise((resolve, reject) => {
+        connection.query(`
+        SELECT forum.id_forum, forum.content, user.name, user.username, user.user_profile_image
+        FROM forum
+        LEFT JOIN user ON user.id_user = forum.id_user
+        WHERE forum.id_reply = ${id}`, (error, result) => {
             if(error){
                 return reject(error);
             }
@@ -195,6 +212,39 @@ function comprobarDisponibilidadUsuario(email, username){
     });
 }
 
+function comprobarInicioSesion(username){
+
+    return new Promise((resolve, reject) => {
+        connection.query(`
+        SELECT id_user, username, password 
+        FROM user
+        WHERE username = '${username}'`, (error, result) => {
+            if(error){
+                return reject(error);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    });
+}
+
+function getPetPosts(id){
+    return new Promise((resolve, reject) => {
+        connection.query(`
+        SELECT post.id_post, post.post_type, post.date_add, pet.pet_name, post.content, post.address, post.post_image_1 
+        FROM post LEFT JOIN pet ON pet.id_pet = post.id_pet
+        WHERE pet.id_pet = ${id}
+        ORDER BY post.date_add DESC`, (error, result) => {
+            if(error){
+                return reject(error);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    });
+}
 
 // CONEXION CON DB
 let connection;
@@ -228,4 +278,5 @@ function connectToDataBase(){
 connectToDataBase();
 
 module.exports = { getAll, getAllPostsCard, getPost, getAllForumsCard, getForum, getMyPets, 
-    getMyForums, getMyReviews, getUser, registerUser, comprobarDisponibilidadUsuario };
+    getMyForums, getMyReviews, getUser, registerUser, comprobarDisponibilidadUsuario, comprobarInicioSesion,
+    getForumReplies, getPetPosts };
