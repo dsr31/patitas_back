@@ -144,6 +144,26 @@ function getMyPets(id){
     });
 }
 
+function getMyPetsByUsername(id){
+    return new Promise((resolve, reject) => {
+        connection.query(`
+        SELECT pet.id_pet, pet.pet_name, pet.pet_description, pet.chip_identifier, pet.pet_genre, pet.pet_profile_image,
+        race.race_name, specie.specie_name
+        FROM pet
+        LEFT JOIN race ON pet.pet_id_race = race.id_race
+        LEFT JOIN specie ON specie.id_specie = race.id_specie
+        LEFT JOIN user ON user.id_user = pet.pet_id_user
+        WHERE user.username = "${id}"`, (error, result) => {
+            if(error){
+                return reject(error);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    });
+}
+
 function getMyForums(id){
     return new Promise((resolve, reject) => {
         connection.query(`
@@ -185,6 +205,37 @@ function getMyReviews(id){
 function registerUser(body){
     return new Promise((resolve, reject) => {
         connection.query(`INSERT INTO user SET ?`, body, (error, result) => {
+            if(error){
+                return reject(error);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    });
+}
+
+function registerPost(body){
+    const currentDate = new Date();
+    body.date_add = currentDate;
+    return new Promise((resolve, reject) => {
+        connection.query(`INSERT INTO post SET ?`, body, (error, result) => {
+            if(error){
+                return reject(error);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    });
+}
+
+function registerPet(body){
+    const currentDate = new Date();
+    body.pet_date_add = currentDate;
+
+    return new Promise((resolve, reject) => {
+        connection.query(`INSERT INTO pet SET ?`, body, (error, result) => {
             if(error){
                 return reject(error);
             }
@@ -246,6 +297,21 @@ function getPetPosts(id){
     });
 }
 
+function getRace(){
+    return new Promise((resolve, reject) => {
+        connection.query(`
+        SELECT race.id_race, race.race_name, race.id_specie
+        FROM race`, (error, result) => {
+            if(error){
+                return reject(error);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    });
+}
+
 // CONEXION CON DB
 let connection;
 const config_db = {
@@ -279,4 +345,4 @@ connectToDataBase();
 
 module.exports = { getAll, getAllPostsCard, getPost, getAllForumsCard, getForum, getMyPets, 
     getMyForums, getMyReviews, getUser, registerUser, comprobarDisponibilidadUsuario, comprobarInicioSesion,
-    getForumReplies, getPetPosts };
+    getForumReplies, getPetPosts, getRace, registerPet, getMyPetsByUsername, registerPost };

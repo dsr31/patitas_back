@@ -12,4 +12,7 @@ function getPost(id){
     return mysql.getPost(id);
 }
 
-module.exports = { getAll, getAllPostsCard, getPost };
+function registerPost(body){
+    return mysql.registerPost(body);
+}
+module.exports = { getAll, getAllPostsCard, getPost, registerPost };

@@ -21,4 +21,8 @@ function comprobarDisponibilidadUsuario(email, username){
 function comprobarInicioSesion(username){
     return mysql.comprobarInicioSesion(username);
 }
-module.exports = { getMyPets, getMyForums, getMyReviews, getUser, registerUser, comprobarDisponibilidadUsuario, comprobarInicioSesion };
+function getMyPetsByUsername(username){
+    return mysql.getMyPetsByUsername(username);
+}
+module.exports = { getMyPets, getMyForums, getMyReviews, getUser, registerUser, 
+    comprobarDisponibilidadUsuario, comprobarInicioSesion, getMyPetsByUsername };

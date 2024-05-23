@@ -6,4 +6,10 @@ function getMyPets(){
 function getPetPosts(id){
     return mysql.getPetPosts(id);
 }
-module.exports = { getMyPets, getPetPosts };
+function getRace(){
+    return mysql.getRace();
+}
+function registerPet(body){
+    return mysql.registerPet(body);
+}
+module.exports = { getMyPets, getPetPosts, getRace, registerPet };

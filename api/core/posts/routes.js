@@ -24,5 +24,12 @@ init.get('/:id', function(req, res){
     })
 });
 
+init.post('', function(req, res){
+    let status  = 200;
+    let message = postController.registerPost(req.body).then(() => {
+        responses.success(req, res, '¡Nuevo post subido!', status);
+    })
+});
+
 // Al final del todo exportamos
 module.exports = init;

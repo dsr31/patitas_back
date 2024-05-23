@@ -38,6 +38,13 @@ init.get('/:id/pets', function(req, res){
     })
 });
 
+init.get('/:id/petsByUsername', function(req, res){
+    let status  = 200;
+    let message = usersController.getMyPetsByUsername(req.params.id).then((items) => {
+        responses.success(req, res, items, status);
+    })
+});
+
 init.get('/:id/forums', function(req, res){
     let status  = 200;
     let message = usersController.getMyForums(req.params.id).then((items) => {
