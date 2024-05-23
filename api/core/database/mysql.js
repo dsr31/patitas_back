@@ -84,7 +84,7 @@ function getPost(id){
         connection.query(`
         SELECT post.*, 
             pet.id_pet, pet.pet_name, pet.pet_description, pet.pet_genre,
-            user.id_user, user.name, user.username, user.email, user.phone,
+            user.id_user, user.name, user.username, user.email, user.phone, user.user_profile_image,
             race.race_name, specie.specie_name, post.post_image_1, post.post_image_2, post.status
         FROM post 
         LEFT JOIN pet ON pet.id_pet = post.id_pet 
@@ -109,6 +109,20 @@ function getUser(id){
         user.rating, user.user_profile_image            
         FROM user 
         WHERE user.username = '${id}'`, (error, result) => {
+            if(error){
+                return reject(error);
+            }
+            else{
+                resolve(result);
+            }
+        })
+    });
+}
+
+function resolvePost(id, status){
+    return new Promise((resolve, reject) => {  
+        connection.query(`
+            UPDATE post SET status = ${status} WHERE id_post = ${id}`, (error, result) => {
             if(error){
                 return reject(error);
             }
@@ -391,4 +405,4 @@ connectToDataBase();
 
 module.exports = { getAll, getAllPostsCard, getPost, getAllForumsCard, getForum, getMyPets, 
     getMyForums, getMyReviews, getUser, registerUser, comprobarDisponibilidadUsuario, comprobarInicioSesion,
-    getForumReplies, getPetPosts, getRace, registerPet, getMyPetsByUsername, registerPost, filtrarFeed };
+    getForumReplies, getPetPosts, getRace, registerPet, getMyPetsByUsername, registerPost, filtrarFeed, resolvePost };

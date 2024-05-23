@@ -19,4 +19,9 @@ function registerPost(body){
 function filtrarFeed(array){
     return mysql.filtrarFeed(array);
 }
-module.exports = { getAll, getAllPostsCard, getPost, registerPost, filtrarFeed };
+
+function resolvePost(id, status){
+    return mysql.resolvePost(id, status);
+}
+
+module.exports = { getAll, getAllPostsCard, getPost, registerPost, filtrarFeed, resolvePost };

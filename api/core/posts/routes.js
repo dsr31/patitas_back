@@ -36,6 +36,13 @@ init.get('/:id', function(req, res){
     })
 });
 
+init.put('/resolve', function(req, res){
+    let status  = 200;
+    let message = postController.resolvePost(req.body.id_post, req.body.status).then((items) => {
+        responses.success(req, res, items, status);
+    })
+});
+
 init.post('', function(req, res){
     let status  = 200;
     let message = postController.registerPost(req.body).then(() => {
