@@ -17,10 +17,56 @@ function getAll(table){
     });
 }
 
+function filtrarFeed(array){
+    let query = `SELECT * FROM post LEFT JOIN pet ON post.id_pet = pet.id_pet WHERE 1 = 1`;
+    if(array.especie && array.especie != 'undefined' && array.especie != ''){
+        query += ` AND (pet.pet_id_race IN (select race.id_race FROM race JOIN specie ON specie.id_specie = race.id_specie WHERE specie.specie_name = '${array.especie}'))`;
+    }
+    if(array.raza && array.raza != 'undefined' && array.raza != ''){
+        query += ` AND (pet.pet_id_race IN (select race.id_race FROM race WHERE race.race_name = '${array.raza}'))`;
+    }
+    if(array.direccion && array.direccion != 'undefined' && array.direccion != ''){
+        query += ` AND post.address LIKE '%${array.direccion}%'`;
+    }
+    if(array.nombre && array.nombre != 'undefined' && array.nombre != ''){
+        query += ` AND pet.pet_name = '${array.nombre}'`;
+    }
+    if(array.chip && array.chip != 'undefined' && array.chip != ''){
+        query += ` AND pet.chip_identifier = '${array.chip}'`;
+    }
+    if(array.post && array.post != 'undefined' && array.post != ''){
+        query += ` AND post.post_type IN (select post_type.id_podst_type from post_type where post_type.name_active LIKE '%${array.post}%')`;
+    }
+    if(array.genero && array.genero != 'undefined' && array.genero != ''){
+        query += ` AND pet.pet_genre = ${array.genero}`;
+    }
+    if(array.fechaini){
+        query += ` AND post.date_add > '${array.fechaini}'`;
+    }
+    if(array.fechafin){
+        query += ` AND post.date_add < '${array.fechafin}'`;
+    }
+    query += `;`;
+    console.log(array);
+    console.log(query);
+    return new Promise((resolve, reject) => {
+        connection.query(query, (error, result) => {
+            if(error){
+                console.log("hola")
+                return reject(error);
+            }
+            else{
+                console.log("adios")
+                resolve(result);
+            }
+        })
+    });
+}
+
 function getAllPostsCard(){
     return new Promise((resolve, reject) => {
         connection.query(`
-        SELECT post.id_post, post.post_type, post.date_add, pet.pet_name, post.content, post.address, post.post_image_1 
+        SELECT post.id_post, post.post_type, post.status, post.date_add, pet.pet_name, post.content, post.address, post.post_image_1 
         FROM post LEFT JOIN pet ON pet.id_pet = post.id_pet
         ORDER BY post.date_add DESC`, (error, result) => {
             if(error){
@@ -39,7 +85,7 @@ function getPost(id){
         SELECT post.*, 
             pet.id_pet, pet.pet_name, pet.pet_description, pet.pet_genre,
             user.id_user, user.name, user.username, user.email, user.phone,
-            race.race_name, specie.specie_name
+            race.race_name, specie.specie_name, post.post_image_1, post.post_image_2, post.status
         FROM post 
         LEFT JOIN pet ON pet.id_pet = post.id_pet 
         LEFT JOIN user ON pet.pet_id_user = user.id_user
@@ -283,7 +329,7 @@ function comprobarInicioSesion(username){
 function getPetPosts(id){
     return new Promise((resolve, reject) => {
         connection.query(`
-        SELECT post.id_post, post.post_type, post.date_add, pet.pet_name, post.content, post.address, post.post_image_1 
+        SELECT post.id_post, post.post_type, post.status, post.date_add, pet.pet_name, post.content, post.address, post.post_image_1
         FROM post LEFT JOIN pet ON pet.id_pet = post.id_pet
         WHERE pet.id_pet = ${id}
         ORDER BY post.date_add DESC`, (error, result) => {
@@ -345,4 +391,4 @@ connectToDataBase();
 
 module.exports = { getAll, getAllPostsCard, getPost, getAllForumsCard, getForum, getMyPets, 
     getMyForums, getMyReviews, getUser, registerUser, comprobarDisponibilidadUsuario, comprobarInicioSesion,
-    getForumReplies, getPetPosts, getRace, registerPet, getMyPetsByUsername, registerPost };
+    getForumReplies, getPetPosts, getRace, registerPet, getMyPetsByUsername, registerPost, filtrarFeed };

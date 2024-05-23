@@ -15,4 +15,8 @@ function getPost(id){
 function registerPost(body){
     return mysql.registerPost(body);
 }
-module.exports = { getAll, getAllPostsCard, getPost, registerPost };
+
+function filtrarFeed(array){
+    return mysql.filtrarFeed(array);
+}
+module.exports = { getAll, getAllPostsCard, getPost, registerPost, filtrarFeed };

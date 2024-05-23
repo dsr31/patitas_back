@@ -10,12 +10,24 @@ const postController = require('../posts/postsController');
     })
 });*/
 
+init.get('/filtrar', function(req, res){
+    try{
+        let status  = 200;
+        const message = postController.filtrarFeed(req.query).then((items) => {
+            responses.success(req, res, items, status);
+        })
+    }catch(error){
+        responses.errors(req, res, error, 500)
+    }
+});
+
 init.get('/', function(req, res){
     let status  = 200;
     let message = postController.getAllPostsCard().then((items) => {
         responses.success(req, res, items, status);
     })
 });
+
 
 init.get('/:id', function(req, res){
     let status  = 200;
